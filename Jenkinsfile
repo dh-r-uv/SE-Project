@@ -5,7 +5,7 @@ pipeline {
         // IMPORTANT: Change 'your-dockerhub-username' to your actual Docker Hub username
         DOCKERHUB_USERNAME = 'dhruvk321'
         // IMPORTANT: Change 'scientific-calculator' to your desired image name
-        IMAGE_NAME = 'calculator-app'
+        IMAGE_NAME = "calculator-app"
         // This references the credentials you must set up in Jenkins
         DOCKERHUB_CREDENTIALS_ID = 'docker-credentials'
     }
@@ -30,13 +30,21 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                // Builds the Docker image using the Dockerfile 
                 script {
+                    // Build the Docker image using the Dockerfile in the workspace
+                    // Make sure Docker Pipeline plugin is installed
                     def dockerImage = docker.build("${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.BUILD_NUMBER}")
+
+                    // Optionally, you can push it to Docker Hub
+                    // docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials-id') {
+                    //     dockerImage.push()
+                    // }
+
+                    echo "Docker image built: ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.BUILD_NUMBER}"
                 }
-                echo "Docker image built: ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.BUILD_NUMBER}"
             }
         }
+
 
         stage('Push to Docker Hub') {
             steps {
