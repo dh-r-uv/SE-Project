@@ -52,8 +52,10 @@ pipeline {
                 // Logs into Docker Hub and pushes the image 
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', DOCKERHUB_CREDENTIALS_ID) {
-                        docker.image("${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.BUILD_NUMBER}").push()
-                        docker.image("${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.BUILD_NUMBER}").push("latest")
+                        // docker.image("${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.BUILD_NUMBER}").push()
+                        // docker.image("${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.BUILD_NUMBER}").push("latest")
+                        docker.image("${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}").push()
+                        docker.image("${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}").push("latest")
                     }
                 }
                 echo "Pushed Docker image to Docker Hub."
