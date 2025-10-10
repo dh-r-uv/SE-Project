@@ -29,6 +29,8 @@ Automatically runs on every GitHub push (githubPush() trigger, configured via we
 
 This pipeline ensures that every code change is automatically tested and deployed, promoting reliability and speed.
 
+![alt text](image-2.png)
+
 ---
 
 ## 🛠️ Technology Stack
@@ -113,9 +115,15 @@ python3 -m unittest test_calculator.py
 ```
 ### 4. Run the container hosted on Docker hub
 ```bash
-docker build -t dhruvk321/sci-calc
-docker run -it dhruvk321/sci-calc
+docker build -t dhruvk321/calculator-app
+docker run -it dhruvk321/calculator-app
 ```
+Now when you
+```bash
+docker ps
+```
+![alt text](image.png)
+
 ### Deploy using Ansible
 - Connects to the target, pulls latest docker image and runs the container on the host, locally.
 ```bash
@@ -123,6 +131,7 @@ ansible-playbook -i inventory.ini deploy.yml
 ```
 Now one can access the container by attaching to running container.
 ```bash
-docker attach sci-calc
+docker attach calculator-app
 ```
+![alt text](image-1.png)
 
