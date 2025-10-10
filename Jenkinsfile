@@ -23,7 +23,7 @@ pipeline {
         stage('Unit Tests') {
             steps {
                 // Runs the PyUnit tests to validate the code 
-                sh 'python -m unittest discover'
+                sh 'python3 -m unittest discover'
                 echo 'Unit tests passed.'
             }
         }

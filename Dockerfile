@@ -11,4 +11,4 @@ COPY . /app
 # RUN pip install --no-cache-dir -r requirements.txt
 
 # Command to run the application when the container starts
-CMD ["python", "src/calculator.py"]
+CMD ["python", "calculator.py"]
