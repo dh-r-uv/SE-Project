@@ -24,7 +24,7 @@ def power(base, exponent):
 
 def display_menu():
     """Displays the calculator menu."""
-    print("\n--- Scientific Calculator Menu ---")
+    print("\n--- Calculator Menu ---")
     print("1. Square Root (√x)")
     print("2. Factorial (!x)")
     print("3. Natural Logarithm (ln(x))")
@@ -36,7 +36,7 @@ def main():
     """Main function to run the calculator."""
     while True:
         display_menu()
-        choice = input("Enter your choice (1-5): ")
+        choice = input("Enter your choice (1-5): ", flush=True)
 
         if choice == '1':
             try:
