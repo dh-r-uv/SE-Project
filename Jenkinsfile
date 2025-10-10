@@ -64,7 +64,7 @@ pipeline {
                     //     sh "docker tag ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG} ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest"
                     //     sh "docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest"
                     // }
-                     withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DH_USER', passwordVariable: 'DH_PASS')]) {
+                     withCredentials([usernamePassword(credentialsId: DOCKERHUB_CREDENTIALS_ID, usernameVariable: 'DH_USER', passwordVariable: 'DH_PASS')]) {
                         sh 'echo $DH_PASS | docker login -u $DH_USER --password-stdin'
                         sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
                         sh "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_NAME}:latest"
