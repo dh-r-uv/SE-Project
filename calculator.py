@@ -24,9 +24,8 @@ def power(base, exponent):
 
 def display_menu():
     """Displays the calculator menu."""
-    # print("Hello, Hi")
     print("\n--- Calculator Menu ---")
-    print("1. Square Root (√x)")
+    print("1. Square Root of number(√x)")
     print("2. Factorial (!x)")
     print("3. Natural Logarithm (ln(x))")
     print("4. Power (x^b)")
