@@ -14,8 +14,9 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Fetches the code from your GitHub repository
-                git 'https://github.com/dh-r-uv/SE-Project.git'
-                echo 'Source code checked out successfully.'
+                // git 'https://github.com/dh-r-uv/SE-Project.git'
+                // echo 'Source code checked out successfully.'
+                checkout scm
             }
         }
 
