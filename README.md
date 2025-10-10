@@ -29,7 +29,7 @@ Automatically runs on every GitHub push (githubPush() trigger, configured via we
 
 This pipeline ensures that every code change is automatically tested and deployed, promoting reliability and speed.
 
-![alt text](image-2.png)
+![alt text](images/image-2.png)
 
 ---
 
@@ -122,7 +122,7 @@ Now when you
 ```bash
 docker ps
 ```
-![alt text](image.png)
+![alt text](images/image.png)
 
 ### Deploy using Ansible
 - Connects to the target, pulls latest docker image and runs the container on the host, locally.
@@ -133,5 +133,5 @@ Now one can access the container by attaching to running container.
 ```bash
 docker attach calculator-app
 ```
-![alt text](image-1.png)
+![alt text](images/image-1.png)
 
