@@ -5,7 +5,8 @@ pipeline {
         // IMPORTANT: Change 'your-dockerhub-username' to your actual Docker Hub username
         DOCKERHUB_USERNAME = 'dhruvk321'
         // IMPORTANT: Change 'scientific-calculator' to your desired image name
-        IMAGE_NAME = "calculator-app"
+        // IMAGE_NAME = "calculator-app"
+        IMAGE_NAME = "${DOCKERHUB_USERNAME}/calculator-app"
         IMAGE_TAG = "v${env.BUILD_NUMBER}"
         // This references the credentials you must set up in Jenkins
         DOCKERHUB_CREDENTIALS_ID = 'docker-credentials'
@@ -34,7 +35,9 @@ pipeline {
                 script {
                     // Build the Docker image using the Dockerfile in the workspace
                     // Make sure Docker Pipeline plugin is installed
-                    docker.build("${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}", '.')
+                    // docker.build("${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}", '.')
+
+                    docker.build("${IMAGE_NAME}:${IMAGE_TAG}", '.')
 
                     // Optionally, you can push it to Docker Hub
                     // docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials-id') {
@@ -51,15 +54,21 @@ pipeline {
             steps {
                 // Logs into Docker Hub and pushes the image 
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', DOCKERHUB_CREDENTIALS_ID) {
-                        // docker.image("${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}").push()
-                        // docker.image("${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}").push("latest")
-                        // sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
-                        // sh "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_NAME}:latest"
-                        // sh "docker push ${IMAGE_NAME}:latest"
-                        sh "docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}"
-                        sh "docker tag ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG} ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest"
-                        sh "docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest"
+                    // docker.withRegistry('https://registry.hub.docker.com', DOCKERHUB_CREDENTIALS_ID) {
+                    //     // docker.image("${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}").push()
+                    //     // docker.image("${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}").push("latest")
+                    //     // sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
+                    //     // sh "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_NAME}:latest"
+                    //     // sh "docker push ${IMAGE_NAME}:latest"
+                    //     sh "docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}"
+                    //     sh "docker tag ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG} ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest"
+                    //     sh "docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest"
+                    // }
+                     withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DH_USER', passwordVariable: 'DH_PASS')]) {
+                        sh 'echo $DH_PASS | docker login -u $DH_USER --password-stdin'
+                        sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
+                        sh "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_NAME}:latest"
+                        sh "docker push ${IMAGE_NAME}:latest"
                     }
                 }
                 echo "Pushed Docker image to Docker Hub."
