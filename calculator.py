@@ -28,7 +28,7 @@ def display_menu():
     print("3. Logorithm (ln(x))")
     print("4. Power (x^b)")
     print("5. Exit")
-    print("---------------------------------")
+    print("---------------------------------\n")
 
 def main():
     while True:
