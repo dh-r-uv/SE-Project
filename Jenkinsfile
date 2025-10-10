@@ -6,6 +6,7 @@ pipeline {
         IMAGE_NAME = "${DOCKERHUB_USERNAME}/calculator-app"
         IMAGE_TAG = "v${env.BUILD_NUMBER}"
         DOCKERHUB_CREDENTIALS_ID = 'docker-credentials'
+        EMAIL = 'dhruvkothari4017@gmail.com'
     }
 
     stages {
@@ -80,10 +81,20 @@ pipeline {
     }
     
     post {
-        always {
-            // Clean up old Docker images to save space
-            sh "docker image prune -f"
-            echo 'Pipeline finished.'
+        // always {
+        //     // Clean up old Docker images to save space
+        //     sh "docker image prune -f"
+        //     echo 'Pipeline finished.'
+        // }
+        success {
+            mail to: EMAIL,
+                 subject: "SUCCESS: Pipeline '${env.JOB_NAME}' [${env.BUILD_NUMBER}]",
+                 body: "The pipeline run was successful. Check the build log here: ${env.BUILD_URL}"
+        }
+        failure {
+            mail to: EMAIL,
+                 subject: "FAILURE: Pipeline '${env.JOB_NAME}' [${env.BUILD_NUMBER}]",
+                 body: "The pipeline run failed. Check the build log for errors: ${env.BUILD_URL}"
         }
     }
 }
