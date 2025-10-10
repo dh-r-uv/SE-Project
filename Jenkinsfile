@@ -2,22 +2,15 @@ pipeline {
     agent any
 
     environment {
-        // IMPORTANT: Change 'your-dockerhub-username' to your actual Docker Hub username
         DOCKERHUB_USERNAME = 'dhruvk321'
-        // IMPORTANT: Change 'scientific-calculator' to your desired image name
-        // IMAGE_NAME = "calculator-app"
         IMAGE_NAME = "${DOCKERHUB_USERNAME}/calculator-app"
         IMAGE_TAG = "v${env.BUILD_NUMBER}"
-        // This references the credentials you must set up in Jenkins
         DOCKERHUB_CREDENTIALS_ID = 'docker-credentials'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Fetches the code from your GitHub repository
-                // git 'https://github.com/dh-r-uv/SE-Project.git'
-                // echo 'Source code checked out successfully.'
                 checkout scm
             }
         }
@@ -75,14 +68,15 @@ pipeline {
             }
         }
 
-        // stage('Deploy with Ansible') {
-        //     steps {
-        //         // Executes the Ansible playbook to deploy the container locally [cite: 17, 19]
-        //         // We pass the image name as an extra variable to the playbook
-        //         sh "ansible-playbook playbook.yml --extra-vars 'docker_image=${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest'"
-        //         echo 'Deployment with Ansible complete.'
-        //     }
-        // }
+        stage('Deploy via Ansible') {
+            steps {
+                withEnv(["BUILD_NUMBER=${BUILD_NUMBER}"]) {
+                    sh '''
+                    ansible-playbook -i inventory.ini deploy.yml
+                    '''
+                }
+            }
+        }
     }
     
     post {
