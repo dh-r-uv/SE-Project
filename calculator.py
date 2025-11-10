@@ -22,7 +22,7 @@ def power(base, exponent):
     return math.pow(base, exponent)
 
 def display_menu():
-    # print("change")
+    print("change")
     print("\nCalculator Menu ")
     print("1. Square Root (√x)")
     print("2. Factorial (x!)")
